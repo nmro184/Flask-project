@@ -32,3 +32,13 @@ def spread():
         return jsonify({"status": "success", "receivedMessage": message}), 200
     else:
         return jsonify({"status": "error", "message": "No message provided"}), 400
+
+@app.route('/get_recent_messages', methods=['GET'])
+def get_recent_messages():
+    query_result = query('SELECT message, created_at FROM messages WHERE created_at >= datetime("now", "-30 minutes")')
+    
+    if query_result:
+        messages = [{"message": row[0], "created_at": row[1]} for row in query_result]
+        return  messages
+    else:
+        return jsonify({"status": "error", "message": "No recent messages"}), 404
