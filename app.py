@@ -26,7 +26,7 @@ def spread():
     if message:
         query('INSERT INTO messages (message, created_at) VALUES (?, CURRENT_TIMESTAMP)', (message,))
         discord_data = {
-            "content": message  # The message content to send to Discord
+            "content": message  
         }
         requests.post(DISCORD_WEBHOOK_URL, json=discord_data)
         return jsonify({"status": "success", "receivedMessage": message}), 200
